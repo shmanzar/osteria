@@ -5,7 +5,7 @@ library(tidyverse)
 library(data.table)
 library(glue)
 
-# Specify authorisations for  the IRMNCH login page and then log in
+# Specify authorisations for  the client's login page and then log in
 # I have removed the authorisations due to government regulations on healthcare data and personal bindings to NDAs
 login <- list(
     username = 'USERNAME',
@@ -17,47 +17,47 @@ period <- "custom_period"
 from_date <- "2018-06-01"
 to_date <- "2018-06-15"
 
-res <- POST("http://www.irmnch.gop.pk/mis/index.php?login", body = login, encode = "form", verbose())
+res <- POST("http://www.CLIENT_URL_COM/mis/index.php?login", body = login, encode = "form", verbose())
 
 
 # First find all the urls
 
-table_urls <- c(glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=1"), 
-                glue( "http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}btnSubmit=Search&page=1&Submit=1&district_id=2"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=3"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=4"),  
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=5"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=6"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=7"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=8"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=9"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=10"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=11"),
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=12"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=13"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=14"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=15"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=16"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=17"),
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=18"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=19"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=20"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=21"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=22"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=23"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=24"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=25"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=26"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=27"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=28"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=29"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=30"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=31"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=32"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=33"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=34"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=35"), 
-                glue("http://www.irmnch.gop.pk/mis/24-7/hf_wise_deliveries.php?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=36"))
+table_urls <- c(glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=1"), 
+                glue( "http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}btnSubmit=Search&page=1&Submit=1&district_id=2"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=3"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=4"),  
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=5"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=6"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=7"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=8"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=9"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=10"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=11"),
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=12"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=13"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=14"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=15"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=16"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=17"),
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=18"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=19"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=20"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=21"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=22"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=23"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=24"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=25"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=26"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=27"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=28"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=29"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=30"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=31"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=32"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=33"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=34"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=35"), 
+                glue("http://www.CLIENT_URL_COM?period={period}&from_date={from_date}&to_date={to_date}&btnSubmit=Search&page=1&Submit=1&district_id=36"))
 
 
 
@@ -86,7 +86,7 @@ nameless_dataset <- rbindlist(dist_table, fill=TRUE)
 names(nameless_dataset) <- c("Month", "Code", "Health Facility Name", "Facility Type", "District", "Total Deliveries")    
 
 #Replacing Sr. column with a Month column denoting the preceding month
-## Should change it so that it gets queried from the IRMNCH page itself
+## Should change it so that it gets queried from the client's page itself
 
 
 nameless_dataset <- nameless_dataset %>% 
