@@ -5,7 +5,7 @@ library(tidyverse)
 library(data.table)
 library(glue)
 
-# Specify authorisations for  the client's login page and then log in
+# Specify authorisations for  the client's login page and then log in 
 # I have removed the authorisations due to government regulations on healthcare data and personal bindings to NDAs
 login <- list(
     username = 'USERNAME',
